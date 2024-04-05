@@ -1,91 +1,302 @@
 # drf-serializers-to_do
-# Software Requirements Specification for the TODO List API
+# todo-app
 
-## Project Overview
- The TODO List API is a RESTful API that allows users to create, read, update, and delete TODO lists and TODO items.
+this is for practice django
 
- ## Purpose
+## Feature
 
- This is a project for the Software Engineering course. The purpose of this project is to demonstrate the use of the Agile software development methodology.
+- [x] Create todo
+- [x] Update todo
+- [x] Delete todo
+- [x] List todo
+- [x] Detail todo
+- [x] Mark todo as done
+- [x] Mark todo as undone
 
-## Scope
+## Model Task
 
-This a simple TODO list API that allows users to create, read, update, and delete TODO lists and TODO items. The API is RESTful and uses JSON for data transfer.
+| Field | Type | Description |
+| --- | --- | --- |
+| id | int | Primary key |
+| title | string | Task title |
+| description | string | Task description |
+| done | boolean | Task status |
+| created | datetime | Task created datetime |
+| updated | datetime | Task updated datetime |
 
-## Features
+## Model User
 
-- Create a task
-- Delete a task
-- Update a task
-- Mark a task as complete
-- View all tasks
-- View a single task
-- View completed tasks
-- View incomplete tasks
+| Field | Type | Description |
+| --- | --- | --- |
+| id | int | Primary key |
+| username | string | User username |
+| password | string | User password |
 
-## Database Schema
+## API
 
-The database schema for the TODO List API is as follows:
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | /api/v1/tasks/ | List todo |
+| POST | /api/v1/tasks/ | Create todo |
+| GET | /api/v1/tasks/:id/ | Detail todo |
+| PUT | /api/v1/tasks/:id/ | Update todo |
+| DELETE | /api/v1/tasks/:id/ | Delete todo |
+| POST | /api/v1/tasks/:id/done/ | Mark todo as done |
+| POST | /api/v1/tasks/:id/undone/ | Mark todo as undone |
+| POST | /api/v1/users/ | Create user |
+| GET | /api/v1/users/ | List User |
+| GET | /api/v1/users/:id/ | Detail user |
 
-|Field|Type|Description|
-|-----|----|-----------|
-|id|integer|The unique identifier for the task|
-|task|text|The task description|
-|description|text|The task description|
-|completed|boolean|Whether the task is completed or not|
-|created_at|datetime|The date and time the task was created|
-|updated_at|datetime|The date and time the task was last updated|
+### List todo
 
-## API Endpoints
-
-The API endpoints for the TODO List API are as follows:
-
-|Method|Endpoint|Description|
-|------|--------|-----------|
-|GET|/api/tasks|Get all tasks|
-|GET|/api/tasks/{id}|Get a single task|
-|POST|/api/tasks|Create a new task|
-|POST|/api/tasks/{id}|Update a task|
-|POST|/api/tasks/{id}/complete|Mark a task as complete|
-|POST|/api/tasks/{id}/delete|Delete a task|
-|GET|/api/tasks/completed|Get all completed tasks|
-|GET|/api/tasks/incomplete|Get all incomplete tasks|
-
-## API Documentation
-
-### Get All Tasks
-
-#### Request
-
-`GET /api/tasks`
-
-    curl -i -H 'Accept: application/json' http://localhost:8000/api/tasks
+```
+GET /api/v1/tasks/
+```
 
 #### Response
 
-    HTTP/1.1 200 OK
-    Date: Mon, 01 May 2017 18:28:00 GMT
-    Server: Apache/2.4.18 (Ubuntu)
-    X-Powered-By: PHP/7.0.15-0ubuntu0.16.04.4
-    Cache-Control: no-cache, private
-    Content-Type: application/json
+```
+Status: 200 OK
+```
 
-    [
-        {
-            "id": 1,
-            "task": "Task 1",
-            "description": "Task 1 description",
-            "completed": false,
-            "created_at": "2017-05-01 18:28:00",
-            "updated_at": "2017-05-01 18:28:00"
-        },
-        {
-            "id": 2,
-            "task": "Task 2",
-            "description": "Task 2 description",
-            "completed": false,
-            "created_at": "2017-05-01 18:28:00",
-            "updated_at": "2017-05-01 18:28:00"
-        }
-    ]
+```json
+[
+    {
+        "id": 1,
+        "title": "Task 1",
+        "description": "Task 1 description",
+        "done": false,
+        "created": "2021-01-01T00:00:00Z",
+        "updated": "2021-01-01T00:00:00Z"
+    },
+    {
+        "id": 2,
+        "title": "Task 2",
+        "description": "Task 2 description",
+        "done": false,
+        "created": "2021-01-01T00:00:00Z",
+        "updated": "2021-01-01T00:00:00Z"
+    }
+]
+```
 
+### Create todo
+
+```
+POST /api/v1/tasks/
+```
+
+#### Request
+
+```json
+{
+    "title": "Task 1",
+    "description": "Task 1 description"
+}
+```
+
+#### Response
+
+```
+Status: 201 Created
+```
+
+```json
+{
+    "id": 1,
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "done": false,
+    "created": "2021-01-01T00:00:00Z",
+    "updated": "2021-01-01T00:00:00Z"
+}
+```
+
+### Detail todo
+
+```
+GET /api/v1/tasks/:id/
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+{
+    "id": 1,
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "done": false,
+    "created": "2021-01-01T00:00:00Z",
+    "updated": "2021-01-01T00:00:00Z"
+}
+```
+
+### Update todo
+
+```
+PUT /api/v1/tasks/:id/
+```
+
+#### Request
+
+```json
+{
+    "title": "Task 1",
+    "description": "Task 1 description"
+}
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+{
+    "id": 1,
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "done": false,
+    "created": "2021-01-01T00:00:00Z",
+    "updated": "2021-01-01T00:00:00Z"
+}
+```
+
+### Delete todo
+
+```
+DELETE /api/v1/tasks/:id/
+```
+
+#### Response
+
+```
+Status: 204 No Content
+```
+
+### Mark todo as done
+
+```
+POST /api/v1/tasks/:id/done/
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+{
+    "id": 1,
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "done": true,
+    "created": "2021-01-01T00:00:00Z",
+    "updated": "2021-01-01T00:00:00Z"
+}
+```
+
+### Mark todo as undone
+
+```
+POST /api/v1/tasks/:id/undone/
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+{
+    "id": 1,
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "done": false,
+    "created": "2021-01-01T00:00:00Z",
+    "updated": "2021-01-01T00:00:00Z"
+}
+```
+
+### Create user
+
+```
+POST /api/v1/users/
+```
+
+#### Request
+
+```json
+{
+    "username": "user1",
+    "password": "password1"
+}
+```
+
+#### Response
+
+```
+Status: 201 Created
+```
+
+```json
+{
+    "id": 1,
+    "username": "user1",
+    "password": "password1"
+}
+```
+
+### List user
+
+```
+GET /api/v1/users/
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+[
+    {
+        "id": 1,
+        "username": "user1",
+        "password": "password1"
+    },
+    {
+        "id": 2,
+        "username": "user2",
+        "password": "password2"
+    }
+]
+```
+
+### Detail user
+
+```
+GET /api/v1/users/:id/
+```
+
+#### Response
+
+```
+Status: 200 OK
+```
+
+```json
+{
+    "id": 1,
+    "username": "user1",
+    "password": "password1"
+}
+```
