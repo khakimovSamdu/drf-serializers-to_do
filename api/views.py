@@ -53,10 +53,10 @@ class TodoPost(APIView):
 class TodoPut(APIView):
     def put(self, request, id):
         task = Task.objects.get(id=id)
-        serializer = TaskSerializers(task)
-        data = TaskSerializers(request.data)
-        # serializer.update(data)
-        return Response(serializer.data)
+        serializer = TaskSerializers(task).data
+        data = TaskSerializers(request.data).data
+        serializer.update(data)
+        return Response(serializer)
         
 class TodoDelete(APIView):
     def delete(self, requset, id):
