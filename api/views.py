@@ -2,23 +2,33 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import request, response, status
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from .serializers import UserSerializers, TaskSerializers
 from .models import User, Task
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 
 class TodoGet(APIView):
     def get(self, request, id=None, title=None, descriptions=None, done=None):
         if id:
-            task = Task.objects.get(id=id)
-            serializer = TaskSerializers(task)
-            return Response(serializer.data)
+            try:
+                task = Task.objects.get(id=id)
+                serializer = TaskSerializers(task)
+                return Response(serializer.data)
+            except:
+                return Response({"ID error":f"{id} id Not found"})
         
         elif title:
-            task = Task.objects.filter(title__contains = title).first()
-            serializer = TaskSerializers(task)
-            return Response(serializer.data)
+            try:
+                task = Task.objects.filter(title__contains = title).first()
+                serializer = TaskSerializers(task)
+                return Response(serializer.data)
+            except:
+                return Response({"Title":f"{title} ushbu title topilmadi"})
+            
         
         elif descriptions:
             task = Task.objects.filter(description__contains = descriptions).first()
@@ -64,5 +74,20 @@ class TodoDelete(APIView):
         serializers = TaskSerializers(task)
         task.delete()
         return Response(serializers.data)
-    
+
+
+class UserTodo(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request: Request):
+        user = request.user
+        if user.is_authenticated:   
+            print(user.is_authenticated)
+            print (user)
+            # print(type(user))
+            return Response({"user statust":"OK"})
+        else:
+            print(user.is_authenticated)
+            return Response({"status":"error"})
+        
+
         
