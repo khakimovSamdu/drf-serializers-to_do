@@ -14,6 +14,7 @@ class Task(models.Model):
 class User(models.Model):
     username = models.CharField(max_length=12)
     password = models.CharField(max_length=8)
+    user_id = models.IntegerField()
     
     def __str__(self) -> str:
         return self.username

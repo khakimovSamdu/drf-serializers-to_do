@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TodoGet, TodoPost, TodoPut, TodoDelete, UserTodo
+from .views import TodoGet, TodoPost, TodoPut, TodoDelete, UserTodo, CreateTable, ClassBasedView
 urlpatterns = [
 
     path('get/tasks/', TodoGet.as_view(), name='todoget'),
@@ -11,5 +11,8 @@ urlpatterns = [
     path('put/tasks/id/<int:id>/', TodoPut.as_view(), name='todoput'),
     path('delete/tasks/id/<int:id>/', TodoDelete.as_view(), name='tododelete'),
     path('user/', UserTodo.as_view(), name='username'),
+    path('acounts/', CreateTable.as_view()),
+    path('basicauth/', ClassBasedView.as_view()),
+    
 
 ]
